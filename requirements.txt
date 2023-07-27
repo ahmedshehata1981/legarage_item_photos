@@ -1,1 +1,1 @@
-pip install beautifulsoup4
+conda install -c anaconda beautifulsoup4
