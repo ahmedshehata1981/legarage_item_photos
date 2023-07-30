@@ -21,7 +21,7 @@ def download_image(url, filename):
     response = requests.get(url, stream=True)
     if response.status_code == 200:
         with open(filename, "wb") as file:
-            for chunk in response.iter_content(chunk_size=1024):
+            for chunk in response.iter_content(chunk_size=8192):
                 file.write(chunk)
     else:
         print("Error downloading image.")
