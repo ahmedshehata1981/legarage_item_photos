@@ -77,4 +77,5 @@ if __name__ == "__main__":
         success = st.success("Images downloaded successfully!")
         time.sleep(3)
         success.empty()
-        #images = show_images(text)
+    if st.button("Show Images"):
+        images = show_images(text)
