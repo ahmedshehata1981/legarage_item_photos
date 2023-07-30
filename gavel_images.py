@@ -71,6 +71,7 @@ def show_images(urls):
 if __name__ == "__main__":
     st.title("Download Images from Gavel")
     code = st.text_input("Enter the code here:")
+    code = code.strip()
     text = get_links_text(code)
     if st.button("Download Images"):
         download_all_images (text)
