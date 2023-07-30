@@ -1,8 +1,7 @@
-
 import streamlit as st
 import webbrowser
 import requests
-from bs4 import BeautifulSoup as bs
+# from bs4 import BeautifulSoup as bs
 import re
 import os
 import time
@@ -40,17 +39,47 @@ def extract_image_name(url):
         image_name = None
     return image_name
 
-def get_links_text (code):
-    '''extract the text of the image urls from the api came from gavel'''
+# def get_links_text (code):
+#     '''extract the text of the image urls from the api came from gavel'''
+#     api = 'http://41.32.175.122:3000/api/photoFBAfterEdite/'
+#     code_images_url = api + code
+#     web_page = requests.get(code_images_url)
+#     if web_page.status_code == 200:
+#         web_page_code = bs(web_page.content,'html')
+#     else:
+#         return None
+#     text = str(web_page_code)
+#     return text
+
+def get_links_text(code):
+    """extract the text of the image urls from the api came from gavel"""
     api = 'http://41.32.175.122:3000/api/photoFBAfterEdite/'
     code_images_url = api + code
-    web_page = requests.get(code_images_url)
-    if web_page.status_code == 200:
-        web_page_code = bs(web_page.content,'html')
+    response = requests.get(code_images_url)
+    if response.status_code == 200:
+        content = response.content.decode('utf-8')
+        text = re.findall(r'"urls": "(.*)"', content)
     else:
         return None
-    text = str(web_page_code)
     return text
+
+# def get_links_text(code):
+#     """extract the text of the image urls from the api came from gavel"""
+#     api = 'http://41.32.175.122:3000/api/photoFBAfterEdite/'
+#     code_images_url = api + code
+#     response = requests.get(code_images_url)
+#     if response.status_code == 200:
+#         content = response.content.decode('utf-8')
+#         links = str(content).split('"')
+#         urls = []
+#         for link in links:
+#             if link.startswith('"urls": "'):
+#                 urls.append(link[10:-1])
+#         text = ','.join(urls)
+#     else:
+#         return None
+#     return text
+
 
 def download_all_images (urls):
     '''Take the list of image urls and download them in the computer'''
@@ -70,13 +99,14 @@ def show_images(urls):
     return images
 
 if __name__ == "__main__":
-  st.title("Download Images from Gavel")
-  code = st.text_input("Enter the code here:")
-  if st.button("Download Images"):
-    text = get_links_text(code)
-    urls = extract_urls(text)
-    download_all_images (urls)
-    success = st.success("Images downloaded successfully!")
-    time.sleep(3)
-    success.empty()
-    images = show_images(urls)
+    st.title("Download Images from Gavel")
+    code = st.text_input("Enter the code here:")
+    if st.button("Download Images"):
+        text = get_links_text(code)
+#         urls = extract_urls(text)
+#         download_all_images (urls)
+        download_all_images (text)
+        success = st.success("Images downloaded successfully!")
+        time.sleep(3)
+        success.empty()
+        images = show_images(text)
