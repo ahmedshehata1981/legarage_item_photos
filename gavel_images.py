@@ -69,7 +69,7 @@ def show_images(urls):
     return images
 
 if __name__ == "__main__":
-    st.image('Le Garage Logo.jpg', width = 400)
+    st.image('Le Garage Logo.jpg', width = 200)
     st.title("Download Images from Gavel")
     code = st.text_input("Enter the code here:")
     code = code.strip()
