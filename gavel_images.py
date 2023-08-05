@@ -25,7 +25,7 @@ def download_image(url, filename):
                 file.write(chunk)
     else:
         print("Error downloading image.")
-        
+    return filename
         
         
 def extract_image_name(url):
